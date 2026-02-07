@@ -1,4 +1,4 @@
-import Project from '../domain/Project';
+import Project from '../domain/Project.js';
 
 export default class ProjectRepository {
   constructor(storage) {

@@ -1,4 +1,4 @@
-import Todo from '../domain/Todo';
+import Todo from '../domain/Todo.js';
 
 export default class TodoRepository {
   constructor(storage) {

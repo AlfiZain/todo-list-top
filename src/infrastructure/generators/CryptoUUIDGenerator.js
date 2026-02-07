@@ -1,4 +1,4 @@
-import IdGenerator from './IdGenerator';
+import IdGenerator from './IdGenerator.js';
 
 export default class CryptoUUIDGenerator extends IdGenerator {
   generate() {

@@ -1,8 +1,8 @@
-import Todo from '../domain/Todo';
+import Todo from '../domain/Todo.js';
 import {
   validateCreateTodo,
   validateUpdateTodo,
-} from '../domain/TodoValidator';
+} from '../domain/TodoValidator.js';
 
 export default class TodoService {
   constructor(todoRepository, projectRepository, idGenerator) {

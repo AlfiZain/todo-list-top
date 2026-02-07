@@ -1,8 +1,8 @@
-import Project from '../domain/Project';
+import Project from '../domain/Project.js';
 import {
   validateCreateProject,
   validateUpdateProject,
-} from '../domain/ProjectValidator';
+} from '../domain/ProjectValidator.js';
 
 export default class ProjectService {
   constructor(projectRepository, idGenerator) {
