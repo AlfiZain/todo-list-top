@@ -1,0 +1,40 @@
+.btn-text {
+  background: none;
+  border: none;
+  padding: 0;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  text-align: start;
+}
+
+.sidebar .btn-text {
+  padding: 0.5rem;
+  border-radius: 0 0.5rem 0.5rem 0;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.sidebar .btn-text:hover {
+  background: #e4efff;
+  color: #1d4ed8;
+}
+
+.sidebar .btn-text.active {
+  background: #dbeafe;
+  color: #1e40af;
+  font-weight: 500;
+  position: relative;
+}
+
+.sidebar .btn-text.active::before {
+  content: '';
+  position: absolute;
+  left: -0.25rem;
+  top: 2px;
+  bottom: 2px;
+  width: 3px;
+  border-radius: 2px;
+  background: #2563eb;
+}

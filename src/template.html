@@ -5,5 +5,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
   </head>
-  <body></body>
+  <body>
+    <aside class="sidebar">
+      <div class="user-info">
+        <img
+          src="./images/zain-avatar.webp"
+          alt="zain picture"
+          class="profile-picture" />
+        <p class="name">Zain</p>
+      </div>
+      <div class="project-menu">
+        <button class="btn-text active">My Project</button>
+        <button class="btn-text">Work</button>
+        <button id="add-project-btn" class="btn-text">+ Add Project</button>
+      </div>
+    </aside>
+    <main>
+      <div class="project-container">
+        <h1 class="project-title">My Project</h1>
+        <p class="project-description">
+          This is my project section, wheres uncategories todo lies
+        </p>
+      </div>
+      <ul class="todo-list">
+        <li class="todo-item">
+          <input type="checkbox" class="todo-status" />
+          <h2 class="todo-title">
+            <button class="btn-text">Mindfullness</button>
+          </h2>
+          <span class="todo-priority high">High</span>
+          <span class="todo-due-date">08/02/2026</span>
+        </li>
+        <li class="todo-item">
+          <input type="checkbox" class="todo-status" />
+          <h2 class="todo-title">
+            <button class="btn-text">Study</button>
+          </h2>
+          <span class="todo-priority medium">Medium</span>
+          <span class="todo-due-date">07/02/2026</span>
+        </li>
+        <li class="todo-item">
+          <input type="checkbox" class="todo-status" />
+          <h2 class="todo-title">
+            <button class="btn-text">Gaming</button>
+          </h2>
+          <span class="todo-priority low">Low</span>
+          <span class="todo-due-date">09/02/2026</span>
+        </li>
+
+        <li class="todo-item">
+          <button id="add-todo-btn" class="btn-text">+ Add Todo</button>
+        </li>
+      </ul>
+    </main>
+  </body>
 </html>
