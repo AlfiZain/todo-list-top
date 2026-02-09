@@ -15,8 +15,10 @@
         <p class="name">Zain</p>
       </div>
       <div class="project-menu">
-        <button class="btn-text active">My Project</button>
-        <button class="btn-text">Work</button>
+        <ul class="project-list">
+          <li><button class="btn-text active">My Project</button></li>
+          <li><button class="btn-text">Work</button></li>
+        </ul>
         <button id="add-project-btn" class="btn-text">+ Add Project</button>
       </div>
     </aside>
@@ -27,36 +29,35 @@
           This is my project section, wheres uncategories todo lies
         </p>
       </div>
-      <ul class="todo-list">
-        <li class="todo-item">
-          <input type="checkbox" class="todo-status" />
-          <h2 class="todo-title">
-            <button class="btn-text">Mindfullness</button>
-          </h2>
-          <span class="todo-priority high">High</span>
-          <span class="todo-due-date">08/02/2026</span>
-        </li>
-        <li class="todo-item">
-          <input type="checkbox" class="todo-status" />
-          <h2 class="todo-title">
-            <button class="btn-text">Study</button>
-          </h2>
-          <span class="todo-priority medium">Medium</span>
-          <span class="todo-due-date">07/02/2026</span>
-        </li>
-        <li class="todo-item">
-          <input type="checkbox" class="todo-status" />
-          <h2 class="todo-title">
-            <button class="btn-text">Gaming</button>
-          </h2>
-          <span class="todo-priority low">Low</span>
-          <span class="todo-due-date">09/02/2026</span>
-        </li>
-
-        <li class="todo-item">
-          <button id="add-todo-btn" class="btn-text">+ Add Todo</button>
-        </li>
-      </ul>
+      <div class="todo-wrapper">
+        <ul class="todo-list">
+          <li class="todo-item">
+            <input type="checkbox" class="todo-status" />
+            <h2 class="todo-title">
+              <button class="btn-text">Mindfullness</button>
+            </h2>
+            <span class="todo-priority high">High</span>
+            <span class="todo-due-date">08/02/2026</span>
+          </li>
+          <li class="todo-item">
+            <input type="checkbox" class="todo-status" />
+            <h2 class="todo-title">
+              <button class="btn-text">Study</button>
+            </h2>
+            <span class="todo-priority medium">Medium</span>
+            <span class="todo-due-date">07/02/2026</span>
+          </li>
+          <li class="todo-item">
+            <input type="checkbox" class="todo-status" />
+            <h2 class="todo-title">
+              <button class="btn-text">Gaming</button>
+            </h2>
+            <span class="todo-priority low">Low</span>
+            <span class="todo-due-date">09/02/2026</span>
+          </li>
+        </ul>
+        <button id="add-todo-btn" class="btn-text">+ Add Todo</button>
+      </div>
     </main>
   </body>
 </html>

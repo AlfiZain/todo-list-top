@@ -1,0 +1,15 @@
+.project-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.project-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.project-list li button {
+  width: 100%;
+}
