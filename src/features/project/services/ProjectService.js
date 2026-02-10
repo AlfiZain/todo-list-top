@@ -26,7 +26,7 @@ export default class ProjectService {
     const project = new Project({
       id: SYSTEM_PROJECTS.DEFAULT_ID,
       name: SYSTEM_PROJECTS.DEFAULT_NAME,
-      description: 'This is the default project',
+      description: SYSTEM_PROJECTS.DEFAULT_DESCRIPTION,
     });
 
     this.projectRepository.create(project);
