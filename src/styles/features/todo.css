@@ -28,6 +28,15 @@
   border-bottom: none;
 }
 
+.todo-item.completed {
+  opacity: 0.6;
+}
+
+.todo-item.completed button {
+  color: #777777;
+  text-decoration: line-through;
+}
+
 .todo-status {
   width: 1.05rem;
   height: 1.05rem;

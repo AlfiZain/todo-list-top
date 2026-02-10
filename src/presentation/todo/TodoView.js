@@ -59,3 +59,13 @@ export function renderEmptyTodo() {
 
   todoList.appendChild(emptyTodo);
 }
+
+export function updateTodoStatus(todo) {
+  const todoItem = document.querySelector(`.todo-item[data-id="${todo.id}"]`);
+  if (!todoItem) return;
+
+  const checkbox = todoItem.querySelector('.todo-status');
+
+  todoItem.classList.toggle('completed', todo.completed);
+  checkbox.checked = todo.completed;
+}
