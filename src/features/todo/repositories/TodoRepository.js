@@ -29,9 +29,13 @@ export default class TodoRepository {
     this.storage.save(this.key, newTodos);
   }
 
-  delete(id) {
+  deleteById(id) {
     const todos = this.getAll();
     const filteredTodos = todos.filter((item) => item.id !== id);
     this.storage.save(this.key, filteredTodos);
+  }
+
+  deleteAll() {
+    this.storage.save(this.key, []);
   }
 }

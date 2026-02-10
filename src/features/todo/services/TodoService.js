@@ -11,6 +11,19 @@ export default class TodoService {
     this.idGenerator = idGenerator;
   }
 
+  getAllTodo() {
+    return this.todoRepository.getAll() || [];
+  }
+
+  getTodoById(id) {
+    return this.todoRepository.getById(id) || [];
+  }
+
+  getTodosByProject(projectId) {
+    const todos = this.todoRepository.getAll();
+    return todos.filter((todo) => todo.projectId === projectId) || [];
+  }
+
   createTodo(data) {
     validateCreateTodo(data);
 
@@ -55,6 +68,17 @@ export default class TodoService {
 
     this.todoRepository.update(normalizeTodo);
     return normalizeTodo;
+  }
+
+  deleteTodoById(id) {
+    const existing = this.todoRepository.getById(id);
+    if (!existing) throw new Error('Todo not found');
+
+    this.todoRepository.deleteById(id);
+  }
+
+  deleteAllTodo() {
+    this.todoRepository.deleteAll();
   }
 
   toggleComplete(id) {

@@ -1,3 +1,4 @@
+import { SYSTEM_PROJECTS } from '../../../constants/systemDefaults.js';
 import Project from '../domain/Project.js';
 import {
   validateCreateProject,
@@ -8,6 +9,29 @@ export default class ProjectService {
   constructor(projectRepository, idGenerator) {
     this.projectRepository = projectRepository;
     this.idGenerator = idGenerator;
+  }
+
+  getAllProject() {
+    return this.projectRepository.getAll() || [];
+  }
+
+  getProjectById(id) {
+    return this.projectRepository.getById(id) || [];
+  }
+
+  initDefaultProject() {
+    const existing = this.projectRepository.getById(SYSTEM_PROJECTS.DEFAULT_ID);
+    if (existing) return existing;
+
+    const project = new Project({
+      id: SYSTEM_PROJECTS.DEFAULT_ID,
+      name: SYSTEM_PROJECTS.DEFAULT_NAME,
+      description: 'This is the default project',
+    });
+
+    this.projectRepository.create(project);
+
+    return project;
   }
 
   createProject(data) {
@@ -37,5 +61,16 @@ export default class ProjectService {
 
     this.projectRepository.update(normalizeProject);
     return normalizeProject;
+  }
+
+  deleteProjectById(id) {
+    const existing = this.projectRepository.getById(id);
+    if (!existing) throw new Error('Project not found');
+
+    this.projectRepository.deleteById(id);
+  }
+
+  deleteAllProject() {
+    this.projectRepository.deleteAll();
   }
 }

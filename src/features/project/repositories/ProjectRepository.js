@@ -31,9 +31,13 @@ export default class ProjectRepository {
     this.storage.save(this.key, newProjects);
   }
 
-  delete(id) {
+  deleteById(id) {
     const projects = this.getAll();
     const filteredProjects = projects.filter((item) => item.id !== id);
     this.storage.save(this.key, filteredProjects);
+  }
+
+  deleteAll() {
+    this.storage.save(this.key, '');
   }
 }
