@@ -1,11 +1,28 @@
-import { renderProjects } from './ProjectView.js';
+import { VIEW_MODE } from '../../constants/systemDefaults.js';
 
-export function initProject(service) {
+export function bindProjectEvents(service, appState, rerender) {
   const container = document.getElementById('project-list');
   if (!container) return;
 
-  const projectDefault = service.initDefaultProject();
-  container.dataset.activeProjectId = projectDefault.id;
+  container.addEventListener('click', (e) => {
+    const buttons = container.querySelectorAll('.btn-text');
+    buttons.forEach((button) => button.classList.remove('active'));
 
-  renderProjects(service.getAllProject());
+    handleProjectClick(e, appState, rerender);
+  });
+}
+
+function handleProjectClick(event, appState, rerender) {
+  const projectItem = event.target.closest('.project-item');
+  if (!projectItem) return;
+
+  const button = event.target.closest('.btn-text');
+  button.classList.add('active');
+
+  const projectId = projectItem.dataset.id;
+  appState.activeProjectId = projectId;
+  appState.activeTodoId = null;
+  appState.viewMode = VIEW_MODE.PROJECT;
+
+  rerender();
 }
