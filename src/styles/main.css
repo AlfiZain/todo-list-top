@@ -2,3 +2,5 @@
 @import './layout/layout.css';
 @import './components/avatar.css';
 @import './components/button.css';
+@import './features/todo.css';
+@import './features/project.css';
