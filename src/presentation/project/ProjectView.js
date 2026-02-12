@@ -1,8 +1,29 @@
+import { SYSTEM_PROJECTS } from '../../constants/systemDefaults.js';
 import makeElement from '../../utils/makeElement.js';
+
+export function renderActiveProjectSection({ name, description }) {
+  const container = document.getElementById('main-content');
+  if (!container) return;
+
+  const section = makeElement('section', {
+    class: 'project-section',
+    children: [
+      makeElement('h1', {
+        class: 'project-title',
+        text: name,
+      }),
+      makeElement('p', {
+        class: 'project-description',
+        text: description ?? '',
+      }),
+    ],
+  });
+
+  container.appendChild(section);
+}
 
 export function renderProject({ id, name }) {
   const projectList = document.getElementById('project-list');
-  const activeProjectId = projectList.dataset.activeProjectId;
 
   const projectItem = makeElement('li', {
     class: 'project-item',
@@ -11,7 +32,7 @@ export function renderProject({ id, name }) {
     },
     children: [
       makeElement('button', {
-        class: `btn-text ${activeProjectId === id ? 'active' : ''}`,
+        class: `btn-text ${id === SYSTEM_PROJECTS.DEFAULT_ID ? 'active' : ''}`,
         text: name,
       }),
     ],
