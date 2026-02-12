@@ -19,7 +19,7 @@ export default class TodoService {
     return this.todoRepository.getById(id) || [];
   }
 
-  getTodosByProject(projectId) {
+  getTodosByProjectId(projectId) {
     const todos = this.todoRepository.getAll();
     return todos.filter((todo) => todo.projectId === projectId) || [];
   }
