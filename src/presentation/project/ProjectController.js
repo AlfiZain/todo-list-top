@@ -5,9 +5,6 @@ export function bindProjectEvents(service, appState, rerender) {
   if (!container) return;
 
   container.addEventListener('click', (e) => {
-    const buttons = container.querySelectorAll('.btn-text');
-    buttons.forEach((button) => button.classList.remove('active'));
-
     handleProjectClick(e, appState, rerender);
   });
 }
@@ -15,6 +12,9 @@ export function bindProjectEvents(service, appState, rerender) {
 function handleProjectClick(event, appState, rerender) {
   const projectItem = event.target.closest('.project-item');
   if (!projectItem) return;
+
+  const buttons = document.querySelectorAll('.project-list .btn-text');
+  buttons.forEach((button) => button.classList.remove('active'));
 
   const button = event.target.closest('.btn-text');
   button.classList.add('active');
