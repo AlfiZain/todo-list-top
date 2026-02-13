@@ -5,12 +5,10 @@ import TodoRepository from '../features/todo/repositories/TodoRepository.js';
 import ProjectRepository from '../features/project/repositories/ProjectRepository.js';
 import TodoService from '../features/todo/services/TodoService.js';
 import ProjectService from '../features/project/services/ProjectService.js';
-import { bindTodoEvents } from '../presentation/todo/TodoController.js';
-import { bindProjectEvents } from '../presentation/project/ProjectController.js';
 import { VIEW_MODE } from '../constants/systemDefaults.js';
-import { renderProjectPage } from './pages/ProjectPage.js';
-import { renderTodoDetailPage } from './pages/TodoDetailPage.js';
-import { renderProjects } from '../presentation/project/ProjectView.js';
+import { renderProjectPage } from '../presentation/pages/ProjectPage.js';
+import { renderTodoDetailPage } from '../presentation/pages/TodoDetailPage.js';
+import { renderAppLayout } from '../presentation/layout/AppLayout.js';
 
 export function initApp() {
   const idGenerator = new CryptoUUIDGenerator();
@@ -26,20 +24,36 @@ export function initApp() {
   AppState.activeProjectId = defaultProject.id;
   AppState.viewMode = VIEW_MODE.PROJECT;
 
-  const rerender = () => {
-    renderApp({ appState: AppState, todoService, projectService });
-    bindTodoEvents(todoService, AppState, rerender);
+  const renderLayout = () => {
+    const sidebar = document.getElementById('sidebar');
+    const context = {
+      appState: AppState,
+      todoService,
+      projectService,
+      renderPage,
+    };
+
+    renderAppLayout(sidebar, context);
   };
 
-  rerender();
-  renderProjects(projectService.getAllProject());
-  bindProjectEvents(projectService, AppState, rerender);
-}
+  const renderPage = () => {
+    const root = document.getElementById('main-content');
+    root.innerHTML = '';
 
-export function renderApp({ appState, todoService, projectService }) {
-  if (appState.viewMode === VIEW_MODE.PROJECT) {
-    renderProjectPage({ appState, todoService, projectService });
-  } else if (appState.viewMode === VIEW_MODE.TODO_DETAIL) {
-    renderTodoDetailPage({ appState, todoService, projectService });
-  }
+    const context = {
+      appState: AppState,
+      todoService,
+      projectService,
+      renderPage,
+    };
+
+    if (AppState.viewMode === VIEW_MODE.PROJECT) {
+      renderProjectPage(root, context);
+    } else if (AppState.viewMode === VIEW_MODE.TODO_DETAIL) {
+      renderTodoDetailPage(root, context);
+    }
+  };
+
+  renderLayout();
+  renderPage();
 }

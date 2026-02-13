@@ -1,15 +1,15 @@
 import { VIEW_MODE } from '../../constants/systemDefaults.js';
 
-export function bindProjectEvents(service, appState, rerender) {
-  const container = document.getElementById('project-list');
-  if (!container) return;
-
+export function bindProjectEvents(
+  container,
+  { appState, service, renderPage },
+) {
   container.addEventListener('click', (e) => {
-    handleProjectClick(e, appState, rerender);
+    handleProjectClick(e, appState, renderPage);
   });
 }
 
-function handleProjectClick(event, appState, rerender) {
+function handleProjectClick(event, appState, renderPage) {
   const projectItem = event.target.closest('.project-item');
   if (!projectItem) return;
 
@@ -24,5 +24,5 @@ function handleProjectClick(event, appState, rerender) {
   appState.activeTodoId = null;
   appState.viewMode = VIEW_MODE.PROJECT;
 
-  rerender();
+  renderPage();
 }

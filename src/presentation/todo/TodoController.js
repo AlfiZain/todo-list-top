@@ -1,29 +1,27 @@
 import { VIEW_MODE } from '../../constants/systemDefaults.js';
-import { updateTodoStatus } from './TodoView.js';
 
-export function bindTodoEvents(service, appState, rerender) {
-  const container = document.getElementById('todo-list');
-  if (!container) return;
-
+export function bindTodoEvents(container, { appState, service, renderPage }) {
   container.addEventListener('change', (e) => handleChangeCheckbox(e, service));
   container.addEventListener('click', (e) =>
-    handleTodoClick(e, appState, rerender),
+    handleTodoClick(e, appState, renderPage),
   );
 }
 
 function handleChangeCheckbox(event, service) {
-  if (!event.target.classList.contains('todo-status')) return;
+  const checkbox = event.target.closest('.todo-status');
+  if (!checkbox) return;
 
   const todoItem = event.target.closest('.todo-item');
   if (!todoItem) return;
 
   const todoId = todoItem.dataset.id;
+  const todo = service.toggleComplete(todoId);
 
-  const newTodo = service.toggleComplete(todoId);
-  updateTodoStatus(newTodo);
+  todoItem.classList.toggle('completed', todo.completed);
+  checkbox.checked = todo.completed;
 }
 
-function handleTodoClick(event, appState, rerender) {
+function handleTodoClick(event, appState, renderPage) {
   const todoTitle = event.target.closest('.todo-title');
   if (!todoTitle) return;
 
@@ -33,7 +31,5 @@ function handleTodoClick(event, appState, rerender) {
   appState.activeTodoId = todoId;
   appState.viewMode = VIEW_MODE.TODO_DETAIL;
 
-  console.log({ appState });
-
-  rerender();
+  renderPage();
 }

@@ -1,10 +1,6 @@
-import { SYSTEM_PROJECTS } from '../../constants/systemDefaults.js';
 import makeElement from '../../utils/makeElement.js';
 
-export function renderActiveProjectSection({ name, description }) {
-  const container = document.getElementById('main-content');
-  if (!container) return;
-
+export function renderActiveProjectSection(container, { name, description }) {
   const section = makeElement('section', {
     class: 'project-section',
     children: [
@@ -19,12 +15,53 @@ export function renderActiveProjectSection({ name, description }) {
     ],
   });
 
-  container.appendChild(section);
+  container.append(section);
+  return section;
 }
 
-export function renderProject({ id, name }) {
-  const projectList = document.getElementById('project-list');
+export function renderProjectMenu(container) {
+  const projectMenu = makeElement('nav', {
+    class: 'project-menu',
+  });
 
+  container.append(projectMenu);
+  return projectMenu;
+}
+
+export function renderAddProjectBtn(container) {
+  const addProjectBtn = makeElement('button', {
+    id: 'add-project-btn',
+    class: 'btn-text',
+    text: '+ Add Project',
+  });
+
+  container.append(addProjectBtn);
+  return addProjectBtn;
+}
+
+export function renderProjectList(container, projects, activeId) {
+  if (!Array.isArray(projects)) throw new Error('Projects must be an Array');
+
+  const projectList = makeElement('ul', {
+    id: 'project-list',
+    class: 'project-list',
+  });
+
+  const fragment = document.createDocumentFragment();
+
+  projects.forEach((project) =>
+    renderProjectItem(fragment, {
+      ...project,
+      isActive: activeId === project.id,
+    }),
+  );
+
+  projectList.append(fragment);
+  container.append(projectList);
+  return projectList;
+}
+
+export function renderProjectItem(list, { id, name, isActive }) {
   const projectItem = makeElement('li', {
     class: 'project-item',
     attrs: {
@@ -32,21 +69,12 @@ export function renderProject({ id, name }) {
     },
     children: [
       makeElement('button', {
-        class: `btn-text ${id === SYSTEM_PROJECTS.DEFAULT_ID ? 'active' : ''}`,
+        class: `btn-text ${isActive ? 'active' : ''}`,
         text: name,
       }),
     ],
   });
 
-  projectList.appendChild(projectItem);
+  list.append(projectItem);
   return projectItem;
-}
-
-export function renderProjects(projects) {
-  const projectList = document.getElementById('project-list');
-  projectList.innerHTML = '';
-
-  if (!Array.isArray(projects)) throw new Error('Projects must be an Array');
-
-  projects.forEach((project) => renderProject(project));
 }

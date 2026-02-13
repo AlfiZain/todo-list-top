@@ -1,30 +1,57 @@
 import makeElement from '../../utils/makeElement.js';
 
-export function renderTodoSection() {
-  const container = document.getElementById('main-content');
-  if (!container) return;
-
+export function renderTodoSection(container) {
   const section = makeElement('section', {
     class: 'todo-section',
-    children: [
-      makeElement('ul', {
-        id: 'todo-list',
-        class: 'todo-list',
-      }),
-      makeElement('button', {
-        id: 'add-todo-btn',
-        class: 'btn-text',
-        text: '+ Add Todo',
-      }),
-    ],
   });
 
-  container.appendChild(section);
+  container.append(section);
+  return section;
 }
 
-export function renderTodo({ id, title, priority, dueDate, completed }) {
-  const todoList = document.querySelector('.todo-list');
+export function renderAddTodoBtn(container) {
+  const addTodoBtn = makeElement('button', {
+    id: 'add-todo-btn',
+    class: 'btn-text',
+    text: '+ Add Todo',
+  });
 
+  container.append(addTodoBtn);
+  return addTodoBtn;
+}
+
+export function renderTodoList(container, todos) {
+  if (!Array.isArray(todos)) throw new Error('Todos must be an Array');
+
+  const todoList = makeElement('ul', {
+    id: 'todo-list',
+    class: 'todo-list',
+  });
+
+  const fragment = document.createDocumentFragment();
+
+  if (todos.length === 0) renderEmptyTodo(fragment);
+  todos.forEach((todo) => renderTodoItem(fragment, todo));
+
+  todoList.append(fragment);
+  container.append(todoList);
+  return todoList;
+}
+
+export function renderEmptyTodo(list) {
+  const emptyTodo = makeElement('li', {
+    class: 'todo-empty',
+    text: 'No todos yet',
+  });
+
+  list.append(emptyTodo);
+  return emptyTodo;
+}
+
+export function renderTodoItem(
+  list,
+  { id, title, priority, dueDate, completed },
+) {
   const todoItem = makeElement('li', {
     class: `todo-item ${completed ? 'completed' : ''}`,
     attrs: {
@@ -58,38 +85,8 @@ export function renderTodo({ id, title, priority, dueDate, completed }) {
     ],
   });
 
-  todoList.appendChild(todoItem);
-}
-
-export function renderTodos(todos) {
-  const todoList = document.querySelector('.todo-list');
-  todoList.innerHTML = '';
-
-  if (!Array.isArray(todos)) throw new Error('Todos must be an Array');
-  if (todos.length === 0) renderEmptyTodo();
-
-  todos.forEach((todo) => renderTodo(todo));
-}
-
-export function renderEmptyTodo() {
-  const todoList = document.querySelector('.todo-list');
-
-  const emptyTodo = makeElement('p', {
-    class: 'todo-empty',
-    text: 'No todos yet',
-  });
-
-  todoList.appendChild(emptyTodo);
-}
-
-export function updateTodoStatus(todo) {
-  const todoItem = document.querySelector(`.todo-item[data-id="${todo.id}"]`);
-  if (!todoItem) return;
-
-  const checkbox = todoItem.querySelector('.todo-status');
-
-  todoItem.classList.toggle('completed', todo.completed);
-  checkbox.checked = todo.completed;
+  list.append(todoItem);
+  return todoItem;
 }
 
 export function renderTodoDetail(todo, project) {
