@@ -36,6 +36,7 @@ export default class TodoService {
       ...data,
       id: this.idGenerator.generate(),
       title: data.title.trim(),
+      dueDate: 'dueDate' in data ? new Date(data.dueDate) : null,
     });
 
     this.todoRepository.create(todo);
@@ -60,7 +61,7 @@ export default class TodoService {
       title: data.title?.trim() ?? existing.title,
       description: data.description ?? existing.description,
       notes: data.notes ?? existing.notes,
-      dueDate: 'dueDate' in data ? data.dueDate : existing.dueDate,
+      dueDate: 'dueDate' in data ? new Date(data.dueDate) : existing.dueDate,
       priority: data.priority ?? existing.priority,
       projectId,
       completed: data.completed ?? existing.completed,

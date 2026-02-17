@@ -1,28 +1,53 @@
-import { VIEW_MODE } from '../../constants/systemDefaults.js';
+import { RENDERING_PAGE, UI_MODE } from '../../constants/systemDefaults.js';
 
-export function bindProjectEvents(
-  container,
-  { appState, service, renderPage },
-) {
-  container.addEventListener('click', (e) => {
-    handleProjectClick(e, appState, renderPage);
-  });
-}
+export function createProjectController({ appState, service }) {
+  let renderLayout = () => {};
+  let renderPage = () => {};
+  let renderModal = () => {};
 
-function handleProjectClick(event, appState, renderPage) {
-  const projectItem = event.target.closest('.project-item');
-  if (!projectItem) return;
+  return {
+    attachRenderers(renderers) {
+      renderLayout = renderers.renderLayout;
+      renderModal = renderers.renderModal;
+      renderPage = renderers.renderPage;
+    },
 
-  const buttons = document.querySelectorAll('.project-list .btn-text');
-  buttons.forEach((button) => button.classList.remove('active'));
+    getAllProject() {
+      return service.getAllProject();
+    },
 
-  const button = event.target.closest('.btn-text');
-  button.classList.add('active');
+    openProject(projectId) {
+      appState.activeProjectId = projectId;
+      appState.activeTodoId = null;
+      appState.renderingPage = RENDERING_PAGE.PROJECT;
+      renderPage();
+    },
 
-  const projectId = projectItem.dataset.id;
-  appState.activeProjectId = projectId;
-  appState.activeTodoId = null;
-  appState.viewMode = VIEW_MODE.PROJECT;
+    requestCreate() {
+      appState.uiMode = UI_MODE.CREATE_PROJECT;
+      renderModal();
+    },
 
-  renderPage();
+    requestEdit(projectId) {
+      appState.uiMode = UI_MODE.EDIT_PROJECT;
+      appState.activeProjectId = projectId;
+      renderModal();
+    },
+
+    cancelChanges() {
+      appState.uiMode = UI_MODE.NONE;
+    },
+
+    saveProject(data) {
+      if (appState.uiMode === UI_MODE.CREATE_PROJECT) {
+        service.createProject(data);
+      } else if (appState.uiMode === UI_MODE.EDIT_PROJECT) {
+        service.updateProject(data);
+      }
+
+      appState.uiMode = UI_MODE.NONE;
+      renderModal();
+      renderLayout();
+    },
+  };
 }

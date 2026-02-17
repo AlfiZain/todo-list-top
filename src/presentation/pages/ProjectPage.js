@@ -1,5 +1,4 @@
 import { renderActiveProjectSection } from '../project/ProjectView.js';
-import { bindTodoEvents } from '../todo/TodoController.js';
 import {
   renderAddTodoBtn,
   renderTodoList,
@@ -7,20 +6,17 @@ import {
 } from '../todo/TodoView.js';
 
 export function renderProjectPage(root, context) {
-  const { appState, projectService, todoService, renderPage } = context;
+  const { appState, projectService, todoService, controller } = context;
   const activeProjectId = appState.activeProjectId;
 
   renderActiveProjectSection(
     root,
     projectService.getProjectById(activeProjectId),
   );
-  const todoSection = renderTodoSection(root);
-  const todoList = renderTodoList(
-    todoSection,
-    todoService.getTodosByProjectId(activeProjectId),
-  );
-  const addTodoBtn = renderAddTodoBtn(todoSection);
 
-  todoSection.append(todoList, addTodoBtn);
-  bindTodoEvents(todoList, { appState, service: todoService, renderPage });
+  const todoSection = renderTodoSection(root);
+  const todos = todoService.getTodosByProjectId(activeProjectId);
+
+  renderTodoList(todoSection, todos, controller.todoController);
+  renderAddTodoBtn(todoSection, controller.todoController);
 }

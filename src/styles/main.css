@@ -2,5 +2,7 @@
 @import './layout/layout.css';
 @import './components/avatar.css';
 @import './components/button.css';
+@import './components/form.css';
 @import './features/todo.css';
+@import './features/todo-detail.css';
 @import './features/project.css';

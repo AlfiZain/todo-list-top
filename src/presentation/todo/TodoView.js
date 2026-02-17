@@ -1,4 +1,4 @@
-import makeElement from '../../utils/makeElement.js';
+import { makeElement } from '../../utils/makeElements.js';
 
 export function renderTodoSection(container) {
   const section = makeElement('section', {
@@ -9,18 +9,20 @@ export function renderTodoSection(container) {
   return section;
 }
 
-export function renderAddTodoBtn(container) {
+export function renderAddTodoBtn(container, controller) {
   const addTodoBtn = makeElement('button', {
     id: 'add-todo-btn',
     class: 'btn-text',
     text: '+ Add Todo',
   });
 
+  addTodoBtn.addEventListener('click', controller.requestCreate);
   container.append(addTodoBtn);
+
   return addTodoBtn;
 }
 
-export function renderTodoList(container, todos) {
+export function renderTodoList(container, todos, controller) {
   if (!Array.isArray(todos)) throw new Error('Todos must be an Array');
 
   const todoList = makeElement('ul', {
@@ -33,8 +35,11 @@ export function renderTodoList(container, todos) {
   if (todos.length === 0) renderEmptyTodo(fragment);
   todos.forEach((todo) => renderTodoItem(fragment, todo));
 
+  todoList.addEventListener('change', (e) => handleStatusChange(e, controller));
+  todoList.addEventListener('click', (e) => handleTitleClick(e, controller));
   todoList.append(fragment);
   container.append(todoList);
+
   return todoList;
 }
 
@@ -89,82 +94,25 @@ export function renderTodoItem(
   return todoItem;
 }
 
-export function renderTodoDetail(todo, project) {
-  const container = document.getElementById('main-content');
-  if (!container) return;
+function handleStatusChange(event, controller) {
+  const checkbox = event.target.closest('.todo-status');
+  if (!checkbox) return;
 
-  const status = todo.completed ? 'Completed' : 'Pending';
+  const todoItem = event.target.closest('.todo-item');
+  if (!todoItem) return;
 
-  const article = makeElement('article', {
-    id: 'todo-detail',
-    class: 'todo-detail',
-  });
+  const todoId = todoItem.dataset.id;
+  const updated = controller.toggleComplete(todoId);
 
-  const header = makeElement('header', {
-    class: 'todo-header',
-    children: [
-      makeElement('h1', {
-        class: 'todo-title',
-        text: todo.title,
-      }),
-      makeElement('p', {
-        class: 'todo-description',
-        text: todo.description,
-      }),
-    ],
-  });
+  todoItem.classList.toggle('completed', updated.completed);
+  checkbox.checked = updated.completed;
+}
 
-  const metaItem = (label, valueNode) =>
-    makeElement('div', {
-      class: 'meta-item',
-      children: [makeElement('dt', { text: label }), valueNode],
-    });
+function handleTitleClick(event, controller) {
+  const todoTitle = event.target.closest('.todo-title');
+  if (!todoTitle) return;
 
-  const metaList = makeElement('dl', {
-    class: 'meta-list',
-    children: [
-      metaItem(
-        'Priority',
-        makeElement('dd', {
-          class: `priority ${todo.priority.toLowerCase()}`,
-          text: todo.priority.toUpperCase(),
-        }),
-      ),
-      metaItem('Project', makeElement('dd', { text: project.name })),
-      metaItem(
-        'Status',
-        makeElement('dd', {
-          class: `status ${status.toLowerCase()}`,
-          text: status.toUpperCase(),
-        }),
-      ),
-      metaItem(
-        'Due date',
-        makeElement('dd', {
-          children: [
-            makeElement('time', {
-              attrs: { datetime: todo.dueDate },
-              text: todo.dueDate,
-            }),
-          ],
-        }),
-      ),
-    ],
-  });
-
-  const metaSection = makeElement('section', {
-    class: 'todo-meta',
-    children: [metaList],
-  });
-
-  const notesSection = makeElement('section', {
-    class: 'todo-notes',
-    children: [
-      makeElement('h2', { text: 'Notes' }),
-      makeElement('p', { text: todo.notes }),
-    ],
-  });
-
-  article.append(header, metaSection, notesSection);
-  container.appendChild(article);
+  const todoItem = event.target.closest('.todo-item');
+  const todoId = todoItem.dataset.id;
+  controller.openDetail(todoId);
 }

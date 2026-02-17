@@ -1,4 +1,4 @@
-import makeElement from '../../utils/makeElement.js';
+import { makeElement } from '../../utils/makeElements.js';
 
 export function renderActiveProjectSection(container, { name, description }) {
   const section = makeElement('section', {
@@ -28,18 +28,20 @@ export function renderProjectMenu(container) {
   return projectMenu;
 }
 
-export function renderAddProjectBtn(container) {
+export function renderAddProjectBtn(container, controller) {
   const addProjectBtn = makeElement('button', {
     id: 'add-project-btn',
     class: 'btn-text',
     text: '+ Add Project',
   });
 
+  addProjectBtn.addEventListener('click', controller.requestCreate);
   container.append(addProjectBtn);
+
   return addProjectBtn;
 }
 
-export function renderProjectList(container, projects, activeId) {
+export function renderProjectList(container, projects, activeId, controller) {
   if (!Array.isArray(projects)) throw new Error('Projects must be an Array');
 
   const projectList = makeElement('ul', {
@@ -56,6 +58,9 @@ export function renderProjectList(container, projects, activeId) {
     }),
   );
 
+  projectList.addEventListener('click', (e) =>
+    handleProjectClick(e, controller),
+  );
   projectList.append(fragment);
   container.append(projectList);
   return projectList;
@@ -77,4 +82,18 @@ export function renderProjectItem(list, { id, name, isActive }) {
 
   list.append(projectItem);
   return projectItem;
+}
+
+function handleProjectClick(event, controller) {
+  const projectItem = event.target.closest('.project-item');
+  if (!projectItem) return;
+
+  const buttons = document.querySelectorAll('.project-list .btn-text');
+  buttons.forEach((button) => button.classList.remove('active'));
+
+  const button = event.target.closest('.btn-text');
+  button.classList.add('active');
+  const projectId = projectItem.dataset.id;
+
+  controller.openProject(projectId);
 }

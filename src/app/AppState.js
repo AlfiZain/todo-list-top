@@ -1,7 +1,8 @@
 const AppState = {
   activeProjectId: null,
   activeTodoId: null,
-  viewMode: null,
+  renderingPage: null,
+  uiMode: null,
 };
 
 export default AppState;

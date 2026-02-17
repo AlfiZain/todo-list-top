@@ -1,35 +1,55 @@
-import { VIEW_MODE } from '../../constants/systemDefaults.js';
+import { RENDERING_PAGE, UI_MODE } from '../../constants/systemDefaults.js';
 
-export function bindTodoEvents(container, { appState, service, renderPage }) {
-  container.addEventListener('change', (e) => handleChangeCheckbox(e, service));
-  container.addEventListener('click', (e) =>
-    handleTodoClick(e, appState, renderPage),
-  );
-}
+export function createTodoController({ appState, service }) {
+  let renderLayout = () => {};
+  let renderPage = () => {};
+  let renderModal = () => {};
 
-function handleChangeCheckbox(event, service) {
-  const checkbox = event.target.closest('.todo-status');
-  if (!checkbox) return;
+  return {
+    attachRenderers(renderers) {
+      renderLayout = renderers.renderLayout;
+      renderModal = renderers.renderModal;
+      renderPage = renderers.renderPage;
+    },
 
-  const todoItem = event.target.closest('.todo-item');
-  if (!todoItem) return;
+    openDetail(todoId) {
+      appState.renderingPage = RENDERING_PAGE.TODO_DETAIL;
+      appState.activeTodoId = todoId;
+      renderPage();
+    },
 
-  const todoId = todoItem.dataset.id;
-  const todo = service.toggleComplete(todoId);
+    toggleComplete(todoId) {
+      return service.toggleComplete(todoId);
+    },
 
-  todoItem.classList.toggle('completed', todo.completed);
-  checkbox.checked = todo.completed;
-}
+    requestCreate() {
+      appState.uiMode = UI_MODE.CREATE_TODO;
+      appState.activeTodoId = null;
+      renderModal();
+    },
 
-function handleTodoClick(event, appState, renderPage) {
-  const todoTitle = event.target.closest('.todo-title');
-  if (!todoTitle) return;
+    requestEdit(todoId) {
+      appState.uiMode = UI_MODE.EDIT_TODO;
+      appState.activeTodoId = todoId;
+      renderModal();
+    },
 
-  const todoItem = event.target.closest('.todo-item');
-  const todoId = todoItem.dataset.id;
+    cancelChanges() {
+      appState.uiMode = UI_MODE.NONE;
+      appState.activeTodoId = null;
+    },
 
-  appState.activeTodoId = todoId;
-  appState.viewMode = VIEW_MODE.TODO_DETAIL;
+    saveTodo(data) {
+      if (appState.uiMode === UI_MODE.CREATE_TODO) {
+        service.createTodo(data);
+      } else if (appState.uiMode === UI_MODE.EDIT_TODO) {
+        service.updateTodo(data);
+      }
 
-  renderPage();
+      appState.activeTodoId = data.id;
+      appState.uiMode = UI_MODE.NONE;
+      renderModal();
+      renderPage();
+    },
+  };
 }

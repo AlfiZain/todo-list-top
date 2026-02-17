@@ -13,7 +13,8 @@ function validatePriority(priority) {
 }
 
 function validateDueDate(dueDate) {
-  if (dueDate === undefined || dueDate === null) return;
+  if (dueDate === undefined || dueDate === null || dueDate.trim() === '')
+    return;
 
   const date = new Date(dueDate);
   if (isNaN(date.getTime())) {

@@ -1,0 +1,112 @@
+.dialog {
+  border: none;
+  border-radius: 1rem;
+  padding: 0;
+  background: #e4efff;
+  width: min(520px, 92vw);
+  margin: auto;
+  color: #1e40af;
+}
+
+.dialog::backdrop {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.dialog form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.5rem;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.input-group label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1e40af;
+}
+
+.input-group input,
+.input-group textarea,
+.input-group select {
+  padding: 0.8rem 0.9rem;
+  border-radius: 0.5rem;
+  border: 1px solid #dbeafe;
+  background: #ffffff;
+  font-size: 1rem;
+  color: #1e40af;
+  outline: none;
+}
+
+.input-group input:focus,
+.input-group textarea:focus,
+.input-group select:focus {
+  border-color: #2563eb;
+}
+
+.input-group #priority {
+  text-transform: uppercase;
+}
+
+.input-group textarea {
+  min-height: 60px;
+  resize: vertical;
+}
+
+.checkbox-group {
+  flex-direction: row;
+  align-items: center;
+}
+
+.checkbox-group label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  color: #1e40af;
+}
+
+.checkbox-group input[type='checkbox'] {
+  width: 1rem;
+  height: 1rem;
+  accent-color: #2563eb;
+}
+
+.dialog button {
+  padding: 0.9rem 0.95rem;
+  border-radius: 0.5rem;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.dialog .create-btn,
+.dialog .update-btn {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.dialog .create-btn:hover,
+.dialog .update-btn:hover {
+  background: #1d4ed8;
+}
+
+.dialog .cancel-btn {
+  background: #dbeafe;
+  color: #777777;
+}
+
+.dialog .cancel-btn:hover {
+  background: #ffffff;
+  color: #1e40af;
+}
+
+.dialog form button + button {
+  margin-top: 4px;
+}
