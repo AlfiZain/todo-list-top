@@ -38,3 +38,15 @@
   border-radius: 2px;
   background: #2563eb;
 }
+
+.btn-edit:hover {
+  color: #1f8a4c;
+}
+
+.btn-delete:hover {
+  color: #d33;
+}
+
+.project-actions .btn-text:active {
+  transform: scale(0.95);
+}

@@ -12,6 +12,7 @@ export function renderProjectPage(root, context) {
   renderActiveProjectSection(
     root,
     projectService.getProjectById(activeProjectId),
+    controller.projectController,
   );
 
   const todoSection = renderTodoSection(root);

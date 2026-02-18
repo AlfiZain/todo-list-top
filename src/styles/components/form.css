@@ -77,6 +77,10 @@
   accent-color: #2563eb;
 }
 
+.checkbox-group input[type='checkbox']:focus {
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.35);
+}
+
 .dialog button {
   padding: 0.9rem 0.95rem;
   border-radius: 0.5rem;
@@ -98,13 +102,14 @@
 }
 
 .dialog .cancel-btn {
+  border: 1px solid #d1d5db;
   background: #dbeafe;
-  color: #777777;
+  color: #1e40af;
 }
 
 .dialog .cancel-btn:hover {
   background: #ffffff;
-  color: #1e40af;
+  color: #777777;
 }
 
 .dialog form button + button {

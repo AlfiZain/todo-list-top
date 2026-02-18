@@ -117,8 +117,8 @@ export function renderTodoForm(
     priorityInput,
     projectInput,
     statusInput,
-    cancelBtn,
     submitBtn,
+    cancelBtn,
   );
   modal.open(form);
 

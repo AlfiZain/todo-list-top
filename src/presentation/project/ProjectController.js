@@ -1,4 +1,8 @@
-import { RENDERING_PAGE, UI_MODE } from '../../constants/systemDefaults.js';
+import {
+  RENDERING_PAGE,
+  SYSTEM_PROJECTS,
+  UI_MODE,
+} from '../../constants/systemDefaults.js';
 
 export function createProjectController({ appState, service }) {
   let renderLayout = () => {};
@@ -39,15 +43,27 @@ export function createProjectController({ appState, service }) {
     },
 
     saveProject(data) {
+      let newProject;
       if (appState.uiMode === UI_MODE.CREATE_PROJECT) {
-        service.createProject(data);
+        newProject = service.createProject(data);
       } else if (appState.uiMode === UI_MODE.EDIT_PROJECT) {
-        service.updateProject(data);
+        newProject = service.updateProject(data);
       }
 
+      appState.activeProjectId = newProject.id;
       appState.uiMode = UI_MODE.NONE;
       renderModal();
       renderLayout();
+      renderPage();
+    },
+
+    deleteProject(id) {
+      if (id === SYSTEM_PROJECTS.DEFAULT_ID) return;
+      service.deleteProjectById(id);
+
+      appState.activeProjectId = SYSTEM_PROJECTS.DEFAULT_ID;
+      renderLayout();
+      renderPage();
     },
   };
 }

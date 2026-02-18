@@ -40,7 +40,7 @@ export function renderProjectForm(modal, isCreate, project, controller) {
     },
   });
 
-  form.append(nameInput, descriptionInput, cancelBtn, submitBtn);
+  form.append(nameInput, descriptionInput, submitBtn, cancelBtn);
   modal.open(form);
 
   cancelBtn.addEventListener('click', () => {
@@ -54,6 +54,7 @@ export function renderProjectForm(modal, isCreate, project, controller) {
 
     const formData = new FormData(form);
     const formObj = Object.fromEntries(formData);
+    formObj.id = project?.id;
 
     projectController.saveProject(formObj);
     form.reset();
