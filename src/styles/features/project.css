@@ -24,15 +24,3 @@
   display: flex;
   gap: 0.25rem;
 }
-
-.project-actions .btn-text {
-  padding: 0.35rem;
-  display: grid;
-  place-items: center;
-}
-
-.project-actions .btn-text svg {
-  width: 1.5rem;
-  height: 1.5rem;
-  fill: currentColor;
-}

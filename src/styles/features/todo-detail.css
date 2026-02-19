@@ -10,8 +10,15 @@
 
 .todo-detail .todo-header {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
   gap: 1rem;
+}
+
+.todo-header .todo-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .todo-detail .todo-title {

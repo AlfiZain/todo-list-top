@@ -137,7 +137,13 @@ export function makeSelectGroup(
   });
 }
 
-export function makeCheckboxGroup(label, id, name, checked = false) {
+export function makeCheckboxGroup(
+  label,
+  id,
+  name,
+  checked = false,
+  isRequired = false,
+) {
   return makeElement('div', {
     class: 'input-group checkbox-group',
     children: [
@@ -150,6 +156,7 @@ export function makeCheckboxGroup(label, id, name, checked = false) {
               type: 'checkbox',
               name,
               checked,
+              required: isRequired,
             },
           }),
           ` ${label}`,

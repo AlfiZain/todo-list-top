@@ -88,7 +88,7 @@ export function renderTodoForm(
     'Mark as Completed',
     'status',
     'status',
-    false,
+    todo?.completed,
   );
 
   const cancelBtn = makeElement('button', {
@@ -133,13 +133,14 @@ export function renderTodoForm(
 
     const formData = new FormData(form);
     const formObj = {
+      id: todo?.id,
       title: formData.get('title'),
       description: formData.get('description'),
       notes: formData.get('notes'),
       dueDate: formData.get('dueDate'),
       priority: formData.get('priority'),
       projectId: formData.get('project'),
-      completed: formData.get('status'),
+      completed: formData.has('status'),
     };
 
     todoController.saveTodo(formObj);

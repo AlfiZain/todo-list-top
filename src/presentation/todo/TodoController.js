@@ -46,14 +46,23 @@ export function createTodoController({ appState, service }) {
         service.updateTodo(data);
       }
 
+      appState.activeProjectId = data.projectId;
       appState.activeTodoId = data.id;
       appState.uiMode = UI_MODE.NONE;
       renderModal();
+      renderLayout();
       renderPage();
     },
 
     isOverdue(date) {
       return service.isOverdue(date);
+    },
+
+    deleteTodo(id) {
+      service.deleteTodoById(id);
+
+      appState.renderingPage = RENDERING_PAGE.PROJECT;
+      renderPage();
     },
   };
 }

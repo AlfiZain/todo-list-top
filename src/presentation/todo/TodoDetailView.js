@@ -1,5 +1,7 @@
 import { format } from 'date-fns';
 import { makeElement } from '../../utils/makeElements.js';
+import createEditButton from '../components/EditButton.js';
+import createDeleteButton from '../components/DeleteButton.js';
 
 export function renderTodoDetail(root, todo, project, controller) {
   const formattedDate = format(todo.dueDate, 'dd MMMM yyyy');
@@ -20,21 +22,28 @@ export function renderTodoDetail(root, todo, project, controller) {
     class: 'todo-detail',
   });
 
+  const title = makeElement('h1', {
+    class: 'todo-title',
+    text: todo.title,
+  });
+
+  const actions = makeElement('div', {
+    class: 'todo-actions',
+  });
+
+  const desc = makeElement('p', {
+    class: 'todo-description',
+    text: todo.description,
+  });
+
   const header = makeElement('header', {
     class: 'todo-header',
-    children: [
-      makeElement('h1', {
-        class: 'todo-title',
-        text: todo.title,
-      }),
-      todo.description
-        ? makeElement('p', {
-            class: 'todo-description',
-            text: todo.description,
-          })
-        : '',
-    ],
+    children: [title, actions],
   });
+
+  createEditButton(actions, () => controller.requestEdit(todo.id));
+
+  createDeleteButton(actions, () => controller.deleteTodo(todo.id));
 
   const metaItem = (label, valueNode) =>
     makeElement('div', {
@@ -89,6 +98,11 @@ export function renderTodoDetail(root, todo, project, controller) {
     ],
   });
 
-  article.append(header, metaSection, notesSection);
+  article.append(
+    header,
+    todo.description ? desc : '',
+    metaSection,
+    notesSection,
+  );
   root.appendChild(article);
 }

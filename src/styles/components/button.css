@@ -47,6 +47,21 @@
   color: #d33;
 }
 
-.project-actions .btn-text:active {
+.btn-edit.btn-text:active,
+.btn-delete.btn-text:active {
   transform: scale(0.95);
+}
+
+.btn-edit.btn-text,
+.btn-delete.btn-text {
+  padding: 0.35rem;
+  display: grid;
+  place-items: center;
+}
+
+.btn-edit.btn-text svg,
+.btn-delete.btn-text svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  fill: currentColor;
 }
