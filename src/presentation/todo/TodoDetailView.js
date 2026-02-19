@@ -1,7 +1,19 @@
+import { format } from 'date-fns';
 import { makeElement } from '../../utils/makeElements.js';
 
-export function renderTodoDetail(root, todo, project) {
-  const status = todo.completed ? 'Completed' : 'Pending';
+export function renderTodoDetail(root, todo, project, controller) {
+  const formattedDate = format(todo.dueDate, 'dd MMMM yyyy');
+  let status;
+
+  if (todo.completed) {
+    status = 'Completed';
+  } else if (todo.dueDate && controller.isOverdue(todo.dueDate)) {
+    status = 'Overdue';
+  } else if (todo.dueDate && !controller.isOverdue(todo.dueDate)) {
+    status = 'Pending';
+  } else {
+    status = 'None';
+  }
 
   const article = makeElement('article', {
     id: 'todo-detail',
@@ -15,10 +27,12 @@ export function renderTodoDetail(root, todo, project) {
         class: 'todo-title',
         text: todo.title,
       }),
-      makeElement('p', {
-        class: 'todo-description',
-        text: todo.description,
-      }),
+      todo.description
+        ? makeElement('p', {
+            class: 'todo-description',
+            text: todo.description,
+          })
+        : '',
     ],
   });
 
@@ -50,10 +64,12 @@ export function renderTodoDetail(root, todo, project) {
         'Due date',
         makeElement('dd', {
           children: [
-            makeElement('time', {
-              attrs: { datetime: todo.dueDate },
-              text: todo.dueDate,
-            }),
+            todo.dueDate
+              ? makeElement('time', {
+                  attrs: { datetime: todo.dueDate },
+                  text: formattedDate,
+                })
+              : 'NONE',
           ],
         }),
       ),

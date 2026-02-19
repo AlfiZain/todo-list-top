@@ -51,5 +51,9 @@ export function createTodoController({ appState, service }) {
       renderModal();
       renderPage();
     },
+
+    isOverdue(date) {
+      return service.isOverdue(date);
+    },
   };
 }

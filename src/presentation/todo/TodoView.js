@@ -1,3 +1,4 @@
+import { formatDistanceToNow } from 'date-fns';
 import { makeElement } from '../../utils/makeElements.js';
 
 export function renderTodoSection(container) {
@@ -57,6 +58,10 @@ export function renderTodoItem(
   list,
   { id, title, priority, dueDate, completed },
 ) {
+  const formattedDate = dueDate
+    ? formatDistanceToNow(dueDate, { addSuffix: true })
+    : 'NONE';
+
   const todoItem = makeElement('li', {
     class: `todo-item ${completed ? 'completed' : ''}`,
     attrs: {
@@ -85,7 +90,7 @@ export function renderTodoItem(
       }),
       makeElement('span', {
         class: 'todo-due-date',
-        text: dueDate,
+        text: formattedDate,
       }),
     ],
   });

@@ -94,4 +94,12 @@ export default class TodoService {
     this.todoRepository.update(updated);
     return updated;
   }
+
+  isOverdue(date) {
+    if (!date) throw new Error('Date is required');
+    const today = new Date();
+
+    if (date - today < 0) return true;
+    return false;
+  }
 }
